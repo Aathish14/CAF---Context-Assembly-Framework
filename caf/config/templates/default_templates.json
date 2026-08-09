@@ -1,0 +1,29 @@
+[
+  {
+    "id": "general-prompt",
+    "name": "General Prompt",
+    "description": "Generic instruction generation for any purpose.",
+    "category": "General",
+    "template_text": "You are an AI assistant. Your objective is to {{objective}}.\n\nTarget audience: {{audience}}\nTone: {{tone}}\nConstraints: {{constraints}}\nOutput format: {{output_format}}\nLanguage: {{language}}",
+    "placeholders": ["objective", "audience", "tone", "constraints", "output_format", "language"],
+    "version": 1
+  },
+  {
+    "id": "business-analysis",
+    "name": "Business Analysis",
+    "description": "Structured template for business analysis tasks and deliverables.",
+    "category": "Business",
+    "template_text": "As a business analyst, your task is to {{objective}}.\n\nBusiness context: {{business_type}}\nTarget stakeholders: {{audience}}\nAnalysis tone: {{tone}}\nKey constraints: {{constraints}}\nDeliverable format: {{output_format}}\nLanguage: {{language}}\nRisk level: {{risk_level}}\nPurpose: {{purpose}}",
+    "placeholders": ["objective", "business_type", "audience", "tone", "constraints", "output_format", "language", "risk_level", "purpose"],
+    "version": 1
+  },
+  {
+    "id": "software-engineering",
+    "name": "Software Engineering",
+    "description": "Template for software development tasks including coding, architecture, and technical documentation.",
+    "category": "Engineering",
+    "template_text": "You are a senior software engineer. Your task is to {{objective}}.\n\nTechnical context: {{business_type}}\nTarget audience: {{audience}}\nTechnical tone: {{tone}}\nConstraints: {{constraints}}\nOutput format: {{output_format}}\nProgramming language: {{language}}\nRisk level: {{risk_level}}\nPurpose: {{purpose}}\nWord limit: {{word_limit}}",
+    "placeholders": ["objective", "business_type", "audience", "tone", "constraints", "output_format", "language", "risk_level", "purpose", "word_limit"],
+    "version": 1
+  }
+]

@@ -1,0 +1,127 @@
+{
+  "questions": [
+    {
+      "id": "objective",
+      "text": "What is the objective of the content you want to generate?",
+      "type": "text",
+      "required": true,
+      "placeholder": "Describe the goal of the content"
+    },
+    {
+      "id": "audience",
+      "text": "Who is the target audience for this content?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Customers",
+        "Employees",
+        "Investors",
+        "Partners",
+        "General Public",
+        "Software Engineers",
+        "Other"
+      ]
+    },
+    {
+      "id": "tone",
+      "text": "What tone should the content convey?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Formal",
+        "Informal",
+        "Persuasive",
+        "Informative",
+        "Humorous",
+        "Professional",
+        "Technical"
+      ]
+    },
+    {
+      "id": "output_format",
+      "text": "What format should the content be in?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Blog Post",
+        "Email",
+        "Social Media Post",
+        "Report",
+        "Presentation",
+        "Video Script",
+        "Markdown",
+        "Other"
+      ]
+    },
+    {
+      "id": "risk_level",
+      "text": "What is the risk level associated with this content?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    {
+      "id": "language",
+      "text": "In what language should the content be written?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "English",
+        "Spanish",
+        "French",
+        "German",
+        "Chinese",
+        "Other"
+      ]
+    },
+    {
+      "id": "purpose",
+      "text": "What is the purpose of this content?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Inform",
+        "Persuade",
+        "Entertain",
+        "Educate",
+        "Inspire",
+        "Other"
+      ]
+    },
+    {
+      "id": "business_type",
+      "text": "What type of business is this content for?",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Technology",
+        "Healthcare",
+        "Finance",
+        "Education",
+        "Retail",
+        "Manufacturing",
+        "Consulting",
+        "SaaS",
+        "Other"
+      ]
+    },
+    {
+      "id": "constraints",
+      "text": "Any constraints? (e.g., length, style requirements - separate by commas)",
+      "type": "text",
+      "required": false,
+      "placeholder": "Enter constraints separated by commas"
+    },
+    {
+      "id": "word_limit",
+      "text": "What is the word limit? (optional)",
+      "type": "text",
+      "required": false,
+      "placeholder": "Enter a number (optional)"
+    }
+  ]
+}

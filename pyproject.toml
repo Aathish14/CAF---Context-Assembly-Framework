@@ -1,0 +1,213 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "caf"
+version = "1.0.0"
+description = "Context Assembly Framework - An infrastructure platform for structured information assembly"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+
+authors = [
+    { name = "CAF Contributors", email = "maintainers@example.com" }
+]
+
+maintainers = [
+    { name = "CAF Maintainers", email = "maintainers@example.com" }
+]
+
+keywords = [
+    "context",
+    "assembly",
+    "framework",
+    "instruction",
+    "template",
+    "prompt"
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Text Processing :: General",
+]
+
+dependencies = [
+    "streamlit>=1.47.0",
+    "pydantic>=2.11.0",
+    "python-dotenv>=1.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-cov>=5.0.0",
+    "black>=25.1.0",
+    "ruff>=0.12.0",
+    "mypy>=1.16.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/caf-project/caf"
+Repository = "https://github.com/caf-project/caf"
+Documentation = "https://github.com/caf-project/caf"
+Issues = "https://github.com/caf-project/caf/issues"
+Changelog = "https://github.com/caf-project/caf/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["caf*"]
+
+[tool.setuptools.package-data]
+caf = [
+    "config/templates/*.json",
+    "ui/*.py",
+    "database/schema.sql",
+]
+
+[tool.setuptools.package-dir]
+"" = "."
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.ruff_cache
+  | \.tox
+  | \.venv
+  | venv
+  | build
+  | dist
+  | _build
+  | buck-out
+)/
+'''
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "B",
+    "C4",
+    "UP",
+]
+
+ignore = [
+    "E501",
+    "B008",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "T201",
+    "ARG001",
+    "ARG002",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S101",
+    "S106",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D107",
+]
+
+"caf/ui/*.py" = [
+    "T201",
+]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["caf"]
+exclude = [
+    "tests/",
+    "caf/ui/demo_app.py",
+    "caf/ui/questions.py",
+]
+
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+
+strict_optional = true
+implicit_reexport = true
+namespace_packages = true
+explicit_package_bases = true
+
+show_error_codes = true
+pretty = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-v --strict-markers --strict-config"
+testpaths = ["caf/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow tests",
+    "sqlite: Tests requiring SQLite",
+]
+
+filterwarnings = [
+    "ignore::DeprecationWarning:caf.repositories.sqlite_base_repository",
+]
+
+[tool.coverage.run]
+source = ["caf"]
+
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/__init__.py",
+    "caf/ui/demo_app.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
