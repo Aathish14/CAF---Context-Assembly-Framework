@@ -17,7 +17,7 @@
 
 ## 🎥 Demo
 
-[![Watch the CAF Demo](images/thumbnail.png)](https://vimeo.com/1216770893)
+[![Watch the CAF Demo](images/thumbnail.png)](https://youtu.be/JgqLnBfMPWY?si=Qb5qS537ao4Pppok)
 
 **Walkthrough of the Context Assembly Framework**, demonstrating the instruction orchestration workflow, governance capabilities, and enterprise AI runtime integration.
 
