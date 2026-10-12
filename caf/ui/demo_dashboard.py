@@ -261,7 +261,70 @@ def render_sidebar() -> None:
 
         st.divider()
 
-        # Enterprise Runtime Status
+        # Enterprise AI Runtime - Connection Test Logic (runs before status rendering)
+        # Handle connection test button click and update session state
+        test_connection_clicked = st.button(
+            "Test Connection",
+            use_container_width=True,
+            disabled=(selected_provider != "NVIDIA NIM"),
+            key="test_connection_btn"
+        )
+
+        if test_connection_clicked and selected_provider == "NVIDIA NIM":
+            with st.spinner("Testing connection to NVIDIA NIM..."):
+                import time
+                import requests
+
+                api_key = os.getenv("NVIDIA_API_KEY")
+                if not api_key:
+                    st.session_state.ai_runtime_connection_status = "failed"
+                    st.session_state.ai_runtime_latency = None
+                    st.error("🔴 API Key Missing")
+                else:
+                    try:
+                        start_time = time.time()
+                        headers = {
+                            "Authorization": f"Bearer {api_key}",
+                            "Content-Type": "application/json"
+                        }
+                        response = requests.get(
+                            "https://integrate.api.nvidia.com/v1/models",
+                            headers=headers,
+                            timeout=10
+                        )
+                        latency = int((time.time() - start_time) * 1000)
+
+                        if response.status_code == 200:
+                            st.session_state.ai_runtime_connection_status = "connected"
+                            st.session_state.ai_runtime_latency = latency
+                            st.success("🟢 Connection Successful")
+                            st.info(f"""
+                            **Provider:** NVIDIA NIM
+                            **Endpoint:** https://integrate.api.nvidia.com/v1
+                            **Authentication:** Environment Secret ✓
+                            **Latency:** {latency} ms
+                            **Status:** Ready
+                            """)
+                        else:
+                            st.session_state.ai_runtime_connection_status = "failed"
+                            st.session_state.ai_runtime_latency = None
+                            st.error(f"🔴 Connection Failed: HTTP {response.status_code}")
+                    except requests.exceptions.Timeout:
+                        st.session_state.ai_runtime_connection_status = "failed"
+                        st.session_state.ai_runtime_latency = None
+                        st.error("🔴 Connection Timeout")
+                    except requests.exceptions.ConnectionError:
+                        st.session_state.ai_runtime_connection_status = "failed"
+                        st.session_state.ai_runtime_latency = None
+                        st.error("🔴 Connection Error")
+                    except Exception as e:
+                        st.session_state.ai_runtime_connection_status = "failed"
+                        st.session_state.ai_runtime_latency = None
+                        st.error(f"🔴 Connection Error: {str(e)}")
+                st.rerun()
+        elif test_connection_clicked and selected_provider != "NVIDIA NIM":
+            st.warning("Cannot test connection for non-NVIDIA providers.")
+
         st.subheader("Runtime Status")
         
         # Determine status display
@@ -320,64 +383,6 @@ def render_sidebar() -> None:
                 if st.session_state.ai_runtime_latency is not None and st.session_state.ai_runtime_connection_status == "connected":
                     st.markdown("**Latency**")
                     st.text(f"{st.session_state.ai_runtime_latency} ms")
-
-        # Test Connection Button
-        if st.button("Test Connection", use_container_width=True, disabled=(selected_provider != "NVIDIA NIM")):
-            if selected_provider == "NVIDIA NIM":
-                with st.spinner("Testing connection to NVIDIA NIM..."):
-                    # Import here to avoid loading unless needed
-                    import time
-                    import requests
-                    
-                    api_key = os.getenv("NVIDIA_API_KEY")
-                    if not api_key:
-                        st.session_state.ai_runtime_connection_status = "failed"
-                        st.session_state.ai_runtime_latency = None
-                        st.error("🔴 API Key Missing")
-                    else:
-                        try:
-                            start_time = time.time()
-                            headers = {
-                                "Authorization": f"Bearer {api_key}",
-                                "Content-Type": "application/json"
-                            }
-                            # Lightweight test - just check models endpoint
-                            response = requests.get(
-                                "https://integrate.api.nvidia.com/v1/models",
-                                headers=headers,
-                                timeout=10
-                            )
-                            latency = int((time.time() - start_time) * 1000)
-                            
-                            if response.status_code == 200:
-                                st.session_state.ai_runtime_connection_status = "connected"
-                                st.session_state.ai_runtime_latency = latency
-                                st.success("🟢 Connection Successful")
-                                st.info(f"""
-                                **Provider:** NVIDIA NIM
-                                **Endpoint:** https://integrate.api.nvidia.com/v1
-                                **Authentication:** Environment Secret ✓
-                                **Latency:** {latency} ms
-                                **Status:** Ready
-                                """)
-                            else:
-                                st.session_state.ai_runtime_connection_status = "failed"
-                                st.session_state.ai_runtime_latency = None
-                                st.error(f"🔴 Connection Failed: HTTP {response.status_code}")
-                        except requests.exceptions.Timeout:
-                            st.session_state.ai_runtime_connection_status = "failed"
-                            st.session_state.ai_runtime_latency = None
-                            st.error("🔴 Connection Timeout")
-                        except requests.exceptions.ConnectionError:
-                            st.session_state.ai_runtime_connection_status = "failed"
-                            st.session_state.ai_runtime_latency = None
-                            st.error("🔴 Connection Error")
-                        except Exception as e:
-                            st.session_state.ai_runtime_connection_status = "failed"
-                            st.session_state.ai_runtime_latency = None
-                            st.error(f"🔴 Connection Error: {str(e)}")
-            else:
-                st.warning("Cannot test connection for non-NVIDIA providers.")
 
         st.divider()
 
