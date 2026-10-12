@@ -1,4 +1,10 @@
-﻿from caf.ui.demo_dashboard import main
+﻿import sys
+from pathlib import Path
 
-if __name__ == '__main__':
+ROOT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT_DIR))
+
+from caf.ui.demo_dashboard import main
+
+if __name__ == "__main__":
     main()
